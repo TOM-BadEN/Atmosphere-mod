@@ -132,8 +132,12 @@ namespace ams::secmon::smc {
         }
 
         u32 GetMemoryMode() {
+            // 这里是原代码
             /* Unless development function is enabled, we're 4 GB. */
-            u32 memory_mode = pkg1::MemoryMode_4GB;
+            // u32 memory_mode = pkg1::MemoryMode_4GB;
+
+            // 修改为8g
+            u32 memory_mode = pkg1::MemoryMode_8GB;
 
             if (const auto &bcd = GetBootConfig().data; bcd.IsDevelopmentFunctionEnabled()) {
                 memory_mode = GetMemoryMode(bcd.GetMemoryMode());
@@ -143,7 +147,13 @@ namespace ams::secmon::smc {
         }
 
         u32 GetKernelConfiguration() {
-            pkg1::MemorySize memory_size = pkg1::MemorySize_4GB;
+            // 这里是原代码
+            // pkg1::MemorySize memory_size = pkg1::MemorySize_4GB;
+
+            // 修改为8G
+            pkg1::MemorySize memory_size = pkg1::MemorySize_8GB;
+
+
             util::BitPack32 value = {};
 
             if (const auto &bcd = GetBootConfig().data; bcd.IsDevelopmentFunctionEnabled()) {

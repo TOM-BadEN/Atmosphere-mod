@@ -76,9 +76,13 @@ namespace ams::fuse {
             constexpr auto DramId1Shift = 0;
             constexpr auto DramId2Shift = OdmWord4::DramId1::Count + DramId1Shift;
 
+            int dramid = (odm_word4.Get<OdmWord4::DramId1>() << DramId1Shift) |
+                               (odm_word4.Get<OdmWord4::DramId2>() << DramId2Shift);
 
-            return (odm_word4.Get<OdmWord4::DramId1>() << DramId1Shift) |
-                   (odm_word4.Get<OdmWord4::DramId2>() << DramId2Shift);
+            // 这里是配合hekate的 dramid  
+            // 如果 dramid 在 0-34 之间就返回 28，否则返回原始 dramid
+            if (dramid >= 0 && dramid <= 34) return 28;
+            else return dramid;
         }
 
         constinit uintptr_t g_register_address = secmon::MemoryRegionPhysicalDeviceFuses.GetAddress();
